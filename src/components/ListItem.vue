@@ -1,0 +1,84 @@
+<template>
+  <view class="block" @tap="onClick">
+    <image src="" class="cover-img" />
+    <view class="block-cont">
+      <view class="name">济南王大汽车配件有限公司济南王大汽车配件有限公司</view>
+      <view class="msg">主营：汽车配件、二手车</view>
+      <view class="msg">地址：济南市申江路湖南路交叉口7777号</view>
+    </view>
+    <view class="phone" @tap.stop="callPhone">
+      <image :src="require('../assets/mobile.png')" class="phone-icon" />
+    </view>
+  </view>
+</template>
+
+<script>
+import Taro from '@tarojs/taro'
+export default {
+  name: 'ListItem',
+  props: {
+    node: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    onClick() {
+      Taro.navigateTo({url: '/pages/detail/index'})
+    },
+    callPhone() {
+      Taro.makePhoneCall({
+        phoneNumber: '123'
+      })
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.block {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid rgba(102, 102, 102, 0.4);
+  padding-bottom: 20px;
+  margin-top: 20px;
+  .cover-img {
+    width: 180px;
+    height: 120px;
+    margin-right: 10px;
+  }
+  .block-cont {
+    flex: 1;
+    width: 0;
+    .name {
+      font-size: 30px;
+      font-weight: 500;
+      color: #333333;
+      margin-bottom: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .msg {
+      font-size: 24px;
+      line-height: 34px;
+      font-weight: 400;
+      color: #999999;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+  .phone {
+    margin-left: auto;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    .phone-icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+</style>
