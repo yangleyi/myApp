@@ -11,7 +11,7 @@
       :autoplay="isAutoplay"
       :indicator-dots="hasIndicatorDots">
       <swiper-item class="swiper-item" v-for="(item, idx) in banner" :key="idx">
-        <image :src="item" class="banner" />
+        <image :src="item.path" class="banner" />
       </swiper-item>
     </swiper>
     <view class="menu-box">
@@ -22,10 +22,9 @@
     </view>
     <view class="title">优质卖家</view>
     <view class="list">
-      <list-item />
-      <list-item />
-      <list-item />
-      <list-item />
+      <view v-for="item in storeList" :key="item.id">
+        <list-item :node="item" />
+      </view>
     </view>
   </view>
 </template>
@@ -33,6 +32,7 @@
 <script>
 import ListItem from '../../components/ListItem.vue'
 import Taro from '@tarojs/taro'
+import { cloneDeep } from 'lodash'
 export default {
   components: { ListItem },
   data () {
@@ -48,19 +48,43 @@ export default {
     ]
     return {
       menuList,
-      banner: [
-        'https://img10.360buyimg.com/babel/s700x360_jfs/t25855/203/725883724/96703/5a598a0f/5b7a22e1Nfd6ba344.jpg', 
-        'https://img10.360buyimg.com/babel/s700x360_jfs/t25855/203/725883724/96703/5a598a0f/5b7a22e1Nfd6ba344.jpg', 
-        'https://img10.360buyimg.com/babel/s700x360_jfs/t25855/203/725883724/96703/5a598a0f/5b7a22e1Nfd6ba344.jpg'
-      ],
+      banner: [],
       duration: 1000,
       interval: 3000,
       isCircular: true,
       isAutoplay: true,
       hasIndicatorDots: true,
+      storeList: []
     }
   },
+  mounted() {
+    this.getBanner()
+    this.getStore()
+  },
   methods: {
+    getBanner() {
+      this.$request.query({
+        query: this.$api.banners, 
+        variables: {
+          input: { tag: "index" }
+        }
+      }).then(result => {
+        this.banner = result.data.banners
+      });
+    },
+    getStore() {
+      this.$request.query({
+        query: this.$api.store,
+        variables: {
+          input: {
+            limit: 5,
+            offset: 1,
+          }
+        },
+      }).then(({data}) => {
+        this.storeList = cloneDeep(data.shops.edges)
+      })
+    },
     onClick(data) {
       Taro.navigateTo({url: '/pages/category/index'})
     },

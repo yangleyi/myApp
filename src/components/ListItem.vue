@@ -1,10 +1,10 @@
 <template>
   <view class="block" @tap="onClick">
-    <image src="" class="cover-img" />
+    <image :src="node.cover" class="cover-img" />
     <view class="block-cont">
-      <view class="name">济南王大汽车配件有限公司济南王大汽车配件有限公司</view>
+      <view class="name">{{node.name}}</view>
       <view class="msg">主营：汽车配件、二手车</view>
-      <view class="msg">地址：济南市申江路湖南路交叉口7777号</view>
+      <view class="msg">地址：{{node.address}}</view>
     </view>
     <view class="phone" @tap.stop="callPhone">
       <image :src="require('../assets/mobile.png')" class="phone-icon" />
@@ -28,7 +28,7 @@ export default {
     },
     callPhone() {
       Taro.makePhoneCall({
-        phoneNumber: '123'
+        phoneNumber: this.node.phone
       })
     }
   }
