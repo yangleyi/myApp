@@ -59,7 +59,24 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getData()
+  },
   methods: {
+    getData() {
+      this.$request.query({
+        query: this.$api.category,
+        variables: {
+          input: {}
+        },
+      }).then((res) => {
+        console.log('############', res)
+      }).catch(err => {
+        // console.log('#err', JSON.parse(JSON.stringify(err)))
+        // const data = JSON.parse(JSON.stringify(err))
+        // Taro.showToast({title: data.message, icon: 'none'})
+      })
+    },
     onClick(data) {
       console.log(22,data)
       Taro.navigateTo({url: `/pages/storeList/index`})

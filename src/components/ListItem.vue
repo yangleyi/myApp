@@ -3,7 +3,7 @@
     <image :src="node.cover" class="cover-img" />
     <view class="block-cont">
       <view class="name">{{node.name}}</view>
-      <view class="msg">主营：汽车配件、二手车</view>
+      <view class="msg">主营：{{zhuying}}</view>
       <view class="msg">地址：{{node.address}}</view>
     </view>
     <view class="phone" @tap.stop="callPhone">
@@ -22,9 +22,18 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    zhuying() {
+      const data = []
+      this.node.categories.forEach(item => {
+        data.push(item.name)
+      })
+      return data.join('、')
+    }
+  },
   methods: {
     onClick() {
-      Taro.navigateTo({url: '/pages/detail/index'})
+      Taro.navigateTo({url: `/pages/detail/index?id=${this.node.id}`})
     },
     callPhone() {
       Taro.makePhoneCall({

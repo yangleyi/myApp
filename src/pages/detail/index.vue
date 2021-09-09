@@ -69,8 +69,25 @@ export default {
 
     }
   },
+  onLoad(opt) {
+    console.log('onload', opt.id)
+    this.getDetail(opt.id)
+  },
   methods: {
-    
+    getDetail(id) {
+      this.$request.query({
+        query: this.$api.storeDetail,
+        variables: {
+          user: id
+        },
+      }).then((res) => {
+        console.log('############', res)
+      }).catch(err => {
+        // console.log('#err', JSON.parse(JSON.stringify(err)))
+        // const data = JSON.parse(JSON.stringify(err))
+        // Taro.showToast({title: data.message, icon: 'none'})
+      })
+    }
   },
 }
 </script>

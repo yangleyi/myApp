@@ -46,8 +46,7 @@
     "lodash": "^4.17.15",
     "taro-ui": "^2.3.4",
     "taro-ui-vue": "^1.0.0-alpha.5",
-    "vue": "^2.5.0",
-    "vue-template-compiler": "^2.6.14"
+    "vue": "^2.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

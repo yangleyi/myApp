@@ -60,5 +60,33 @@ const api = {
         }
       }
     }`,
+  // 分类
+  category: gql`
+    query categorys($input: CategorysQuery) {
+      categorys(query: $input) {
+        id
+        name
+        status
+        tag
+        route
+        image
+        children {
+            id
+        name
+        status
+        tag
+        route
+        image
+        }
+      }
+    }`,
+  // 商家详情
+  storeDetail: gql`
+    query shop($query: ShopsQueryInput) {
+      shop(query: $query) {
+        id
+        name
+      }
+    }`
 }
 Vue.prototype.$api = api
