@@ -12,7 +12,7 @@
       <view class="address mb10">地址：{{detail.address}}</view>
       <view class="inline">
         <view class="address">电话：<text class="text-blue">{{detail.phone}}</text>（拨打次数：{{count}}）</view>
-        <image :src="require('../../assets/link-store.png')" class="r-btn" />
+        <image @tap="linkStore" :src="require('../../assets/link-store.png')" class="r-btn" />
       </view>
       <view class="net-link">
         <view class="inline">
@@ -63,11 +63,13 @@
 </template>
 
 <script>
+import Taro from '@tarojs/taro'
 export default {
   data () {
     return {
       detail: {
-        categories: []
+        categories: [],
+        phones: []
       }
     }
   },
@@ -94,6 +96,11 @@ export default {
     this.getDetail(opt.id)
   },
   methods: {
+    linkStore() {
+      Taro.makePhoneCall({
+        phoneNumber: this.detail.phone
+      })
+    },
     getDetail(id) {
       this.$request.query({
         query: this.$api.storeDetail,

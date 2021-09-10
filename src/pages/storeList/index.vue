@@ -14,10 +14,14 @@
       :scroll-y="true"
       scroll-with-animation
       class="scrollview"
-      @scroll="handleScroll"
       @scrollToLower="onBottom"
     >
-      <list-item v-for="(item, index) in list" :key="index" />
+      <list-item
+        v-for="(item, index) in list"
+        :key="index"
+        :node="item"
+        class="item"
+      />
       <AtLoadMore
         :status="status"
         no-more-text="已全部加载完毕"
@@ -29,33 +33,68 @@
 
 <script>
 import { AtSearchBar, AtLoadMore } from 'taro-ui-vue'
-// import { ScrollView } from '@tarojs/taro'
+import {clone, cloneDeep} from 'lodash'
 import ListItem from "../../components/ListItem.vue"
 export default {
   components: { ListItem, AtSearchBar, AtLoadMore },
   data () {
     return {
-      list: [1,2,3,4,5, 5, 6, 7],
+      list: [],
       searchText: '',
-      status: 'loading' // loading noMore
+      params: {
+        limit: 10,
+        offset: 1,
+        tsQuery: ''
+      },
+      total: 1
     }
   },
+  computed: {
+    status () {
+      return this.total <= this.list.length ? 'noMore' : 'loading'
+    }
+  },
+  watch: {
+    params: {
+      handler() {
+        this.getStore()
+      },
+      deep: true
+    }
+  },
+  onLoad(opt) {
+    console.log('onload', opt)
+    this.getStore()
+  },
   methods: {
-    handleScroll() {
-      console.log(123)
+    getStore() {
+      this.$request.query({
+        query: this.$api.store,
+        variables: {
+          input: this.params
+        },
+      }).then(({data}) => {
+        this.list = this.params.offset === 1 ? cloneDeep(data.shops.edges) : [...this.list, ...cloneDeep(data.shops.edges)]
+        this.total = data.shops.pageInfo.total
+      })
     },
     onClear() {
       this.searchText = ''
       this.search()
     },
     search() {
-      console.log(222, this.searchText)
+      const params = {
+        ...this.params
+      }
+      params.offset = 1
+      params.tsQuery = this.searchText
+      this.list = []
+      this.params = params
     },
     onBottom() {
-      console.log('到底了')
-      setTimeout(() => {
-        this.status = 'noMore'
-      }, 500)
+      if (this.total > this.list.length) {
+        this.params.offset = this.params.offset + 1
+      }
     }
   },
 }
@@ -65,14 +104,18 @@ export default {
   min-height: 100vh;
   font-family: PingFangSC-Medium, PingFang SC;
   .top-block {
-    height: 70px;
+    height: 100px;
   }
   .scrollview {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 100px);
     background: #FFFFFF;
-    width: 690px;
     margin: 0 auto;
     overflow-y: scroll;
+    .item {
+      width: 690px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
 </style>
