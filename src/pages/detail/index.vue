@@ -27,13 +27,13 @@
     </view>
     <view class="container">
       <view class="title mb10">主营</view>
-      <view class="content border-b">{{cateText}}}</view>
-      <view class="title mb10 mt10">详情</view>
-      <view class="content">{{detail.description}}</view>
+      <view class="content">{{cateText}}}</view>
+      <view class="title mb10 mt10" v-if="false">详情</view>
+      <view class="content" v-if="false">{{detail.description}}</view>
     </view>
-    <view class="container" v-if="false">
+    <view class="container">
       <view class="title mb10">企业介绍</view>
-      <view class="content">公司主营别克、雪弗兰、凯迪拉克、福特全车配件 济南王大汽车配件有限公司可开增值税发票 业务电话:0531-85664288/83157941</view>
+      <view class="content">{{detail.description}}</view>
     </view>
     <view class="container" v-if="false">
       <view class="title mb10">
