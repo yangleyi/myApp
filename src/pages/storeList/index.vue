@@ -33,7 +33,6 @@
 
 <script>
 import { AtSearchBar, AtLoadMore } from 'taro-ui-vue'
-import {clone, cloneDeep} from 'lodash'
 import ListItem from "../../components/ListItem.vue"
 export default {
   components: { ListItem, AtSearchBar, AtLoadMore },
@@ -74,7 +73,7 @@ export default {
           input: this.params
         },
       }).then(({data}) => {
-        this.list = this.params.offset === 1 ? cloneDeep(data.shops.edges) : [...this.list, ...cloneDeep(data.shops.edges)]
+        this.list = this.params.offset === 1 ? [...data.shops.edges] : [...this.list, ...data.shops.edges]
         this.total = data.shops.pageInfo.total
       })
     },

@@ -28,7 +28,6 @@
 
 <script>
 import Taro from '@tarojs/taro'
-import { cloneDeep } from 'lodash'
 import { AtSearchBar, AtIndexes } from 'taro-ui-vue'
 import TestIndexes from '../../taroIndex/Indexes.vue'
 export default {
@@ -49,7 +48,7 @@ export default {
   computed: {
     listData() {
       return key => {
-        const list = cloneDeep(this.list)
+        const list = [...this.list]
         return list.filter(item => {
           item.items = item.items.filter(ele => {
             return ele.name.includes(key)

@@ -32,7 +32,6 @@
 <script>
 import ListItem from '../../components/ListItem.vue'
 import Taro from '@tarojs/taro'
-import { cloneDeep } from 'lodash'
 export default {
   components: { ListItem },
   data () {
@@ -82,7 +81,7 @@ export default {
           }
         },
       }).then(({data}) => {
-        this.storeList = cloneDeep(data.shops.edges)
+        this.storeList = [...data.shops.edges]
       })
     },
     onClick(data) {

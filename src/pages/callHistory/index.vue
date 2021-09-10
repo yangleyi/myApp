@@ -63,7 +63,7 @@ export default {
         },
       }).then((res) => {
         console.log('############', res)
-        this.storeList = [...this.storeList, ...cloneDeep(res.data.edges)]
+        this.storeList = [...this.storeList, ...res.data.edges]
         // this.status = 'noMore'
       }).catch(err => {
         console.log('#err', JSON.parse(JSON.stringify(err)))
