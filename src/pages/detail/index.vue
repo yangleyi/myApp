@@ -1,41 +1,41 @@
 <template>
   <view class="page">
     <image
-      src=""
+      :src="detail.cover"
       class="banner"
     />
     <view class="container">
       <view class="inline mb10">
-        <view class="title">济南王大汽车配件有限公司</view>
+        <view class="title">{{detail.name}}</view>
         <image :src="require('../../assets/go-store.png')" class="r-btn" />
       </view>
-      <view class="address mb10">地址：山东汽配基地总部A区47号</view>
+      <view class="address mb10">地址：{{detail.address}}</view>
       <view class="inline">
-        <view class="address">电话：<text class="text-blue">12345678901</text>(拨打次数:287)</view>
+        <view class="address">电话：<text class="text-blue">{{detail.phone}}</text>（拨打次数：{{count}}）</view>
         <image :src="require('../../assets/link-store.png')" class="r-btn" />
       </view>
       <view class="net-link">
         <view class="inline">
           <image :src="require('../../assets/qq.png')" class="icon" />
-          <text>1729836638</text>
+          <text>{{detail.qqchat}}</text>
         </view>
         <view class="inline">
           <image :src="require('../../assets/wechat.png')" class="icon" />
-          <text>1729836638</text>
+          <text>{{detail.wechat}}</text>
         </view>
       </view>
     </view>
     <view class="container">
       <view class="title mb10">主营</view>
-      <view class="content border-b">别克、雪弗兰、凯迪拉克、福特</view>
+      <view class="content border-b">{{cateText}}}</view>
       <view class="title mb10 mt10">详情</view>
-      <view class="content">别克系列:凯悦、英朗、君越、昂科威等全车配件 雪弗兰系列:克鲁兹、赛欧、景程、乐风、爱唯欧、乐风等全车配件 凯迪拉克系列:ATS-L、XT4、XTS、CT6等全车配件 福特系列:福睿斯、福克斯、蒙迪欧、锐界、翼虎、金牛座、翼搏等全车配件</view>
+      <view class="content">{{detail.description}}</view>
     </view>
-    <view class="container">
+    <view class="container" v-if="false">
       <view class="title mb10">企业介绍</view>
       <view class="content">公司主营别克、雪弗兰、凯迪拉克、福特全车配件 济南王大汽车配件有限公司可开增值税发票 业务电话:0531-85664288/83157941</view>
     </view>
-    <view class="container">
+    <view class="container" v-if="false">
       <view class="title mb10">
         <text>企业相册</text>
         <view class="inline more">
@@ -66,7 +66,27 @@
 export default {
   data () {
     return {
-
+      detail: {
+        categories: []
+      }
+    }
+  },
+  computed: {
+    cateText() {
+      const t = []
+      this.detail.categories.forEach(item => {
+        t.push(item.name)
+      })
+      return t.join('、')
+    },
+    count() {
+      const {phone, phones} = this.detail
+      const filterPhone = phones.filter(item => item.phone === phone)
+      if (filterPhone.length) {
+        return filterPhone[0].count
+      } else {
+        return 0
+      }
     }
   },
   onLoad(opt) {
@@ -78,11 +98,14 @@ export default {
       this.$request.query({
         query: this.$api.storeDetail,
         variables: {
-          user: id
+          query: {
+            id: id
+          }
         },
       }).then((res) => {
-        console.log('############', res)
+        this.detail = res.data.shop
       }).catch(err => {
+        console.log(456, err)
         // console.log('#err', JSON.parse(JSON.stringify(err)))
         // const data = JSON.parse(JSON.stringify(err))
         // Taro.showToast({title: data.message, icon: 'none'})

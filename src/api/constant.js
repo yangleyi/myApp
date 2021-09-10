@@ -71,22 +71,48 @@ const api = {
         route
         image
         children {
-            id
-        name
-        status
-        tag
-        route
-        image
+          id
+          name
+          status
+          tag
+          route
+          image
         }
       }
     }`,
   // 商家详情
   storeDetail: gql`
-    query shop($query: ShopsQueryInput) {
+    query shop($query: ShopQueryInput) {
       shop(query: $query) {
         id
         name
+        qqchat
+        wechat
+        phone
+        description
+        status
+        isPassed
+        belongto
+        categories {
+          id
+          name
+          status
+          tag
+          route
+          image
+          shopIndex
+        }
+        address
+        area
+        city
+        cover
+        shopType
+        phones {
+          id
+          phone
+          count
+        }
       }
-    }`
+    }` // phoneCount
 }
 Vue.prototype.$api = api

@@ -15,7 +15,7 @@
         {
           "name": "pages/detail/index",
           "pathName": "pages/detail/index",
-          "query": "",
+          "query": "id=c2hvcC8xNjUx",
           "scene": null
         },
         {
@@ -33,6 +33,7 @@
         {
           "name": "pages/category/index",
           "pathName": "pages/category/index",
+          "query": "",
           "scene": null
         }
       ]
