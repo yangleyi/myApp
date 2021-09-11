@@ -1,10 +1,17 @@
 export default {
   pages: [
     'pages/index/index',
-    'pages/detail/index',
-    'pages/storeList/index',
-    'pages/callHistory/index',
-    'pages/category/index'
+    'pages/callHistory/index'
+  ],
+  "subpackages": [
+    {
+      "root": "subPages",
+      "pages": [
+        "detail/index",
+        "storeList/index",
+        "category/index",
+      ]
+    }
   ],
   tabBar: {
     list: [{

@@ -97,7 +97,7 @@ export default {
     },
     onClick(data) {
       console.log(22,data)
-      Taro.navigateTo({url: `/pages/storeList/index?id=${data.id}`})
+      Taro.navigateTo({url: `/subPages/storeList/index?id=${data.id}`})
     },
     handleScroll(data) {
        this.scrollToView = data

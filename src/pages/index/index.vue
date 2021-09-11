@@ -100,7 +100,7 @@ export default {
     },
     onClick(data) {
       console.log(data)
-      Taro.navigateTo({url: `/pages/category/index?id=${data.id}`})
+      Taro.navigateTo({url: `/subPages/category/index?id=${data.id}`})
     },
     handleClick () {
       this.show = true

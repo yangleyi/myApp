@@ -53,7 +53,7 @@ export default {
       })
     },
     onClick() {
-      Taro.navigateTo({url: `/pages/detail/index?id=${this.node.id}`})
+      Taro.navigateTo({url: `/subPages/detail/index?id=${this.node.id}`})
     },
     callPhone() {
       this.addLog()

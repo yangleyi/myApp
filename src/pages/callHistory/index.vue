@@ -1,8 +1,5 @@
 <template>
   <view class="page">
-    <view>
-      
-    </view>
     <scroll-view
       :scroll-y="true"
       scroll-with-animation
