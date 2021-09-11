@@ -5,8 +5,8 @@
   "appid": "wx7f19927ea3390016",
   "setting": {
     "urlCheck": false,
-    "es6": true,
-    "enhance": true,
+    "es6": false,
+    "enhance": false,
     "postcss": false,
     "preloadBackgroundData": false,
     "minified": true,
@@ -31,12 +31,11 @@
     },
     "enableEngineNative": false,
     "useIsolateContext": true,
-    "useCompilerModule": false,
-    "userConfirmedUseCompilerModuleSwitch": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true
+    "minifyWXSS": true,
+    "showES6CompileOption": false
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",

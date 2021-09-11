@@ -10,6 +10,7 @@
       <view class="custom-area">
         <AtSearchBar  
           :on-change="val => value = val"
+          :value="value"
           placeholder="搜索" 
           :on-action-click="handleActionClick" 
         />
