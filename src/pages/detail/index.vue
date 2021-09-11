@@ -7,7 +7,7 @@
     <view class="container">
       <view class="inline mb10">
         <view class="title">{{detail.name}}</view>
-        <image :src="require('../../assets/go-store.png')" class="r-btn" />
+        <!-- <image :src="require('../../assets/go-store.png')" class="r-btn" /> -->
       </view>
       <view class="address mb10">地址：{{detail.address}}</view>
       <view class="inline">
@@ -15,11 +15,11 @@
         <image @tap="linkStore" :src="require('../../assets/link-store.png')" class="r-btn" />
       </view>
       <view class="net-link">
-        <view class="inline">
+        <view v-if="detail.qqchat" class="inline" @tap="copy(detail.qqchat)">
           <image :src="require('../../assets/qq.png')" class="icon" />
           <text>{{detail.qqchat}}</text>
         </view>
-        <view class="inline">
+        <view v-if="detail.wechat" class="inline" @tap="copy(detail.wechat)">
           <image :src="require('../../assets/wechat.png')" class="icon" />
           <text>{{detail.wechat}}</text>
         </view>
@@ -59,6 +59,7 @@
       </view>
     </view>
     <view class="h50" />
+    <button class="share" openType="share">分享</button>
   </view>
 </template>
 
@@ -92,10 +93,20 @@ export default {
     }
   },
   onLoad(opt) {
-    console.log('onload', opt.id)
     this.getDetail(opt.id)
   },
+  onShareAppMessage() {
+    const {name, cover} = this.detail
+    const obj = {
+      title: name,
+      imgUrl: cover
+    }
+    return obj
+  },
   methods: {
+    copy(data) {
+      Taro.setClipboardData({data: data.toString()})
+    },
     linkStore() {
       Taro.makePhoneCall({
         phoneNumber: this.detail.phone
@@ -205,6 +216,18 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+  }
+  .share {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    background: #2D6EFF;
+    color: #FFFFFF;
+    width: 100%;
+    height: 80px;
+    font-size: 26px;
+    border-radius: 0;
   }
 }
 </style>

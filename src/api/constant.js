@@ -60,6 +60,19 @@ const api = {
         }
       }
     }`,
+  // 创建通话记录
+  addCallLog: gql`
+    mutation createPhoneRecord($input: CreatePhoneRecordInput!) {
+      createPhoneRecord(input: $input) {
+          id
+          phone
+          user {
+              id
+              name
+          }
+          createdAt
+      }
+  }`,
   // 分类
   category: gql`
     query categorys($input: CategorysQuery) {
@@ -113,6 +126,6 @@ const api = {
           count
         }
       }
-    }` // phoneCount
+    }`, // phoneCount
 }
 Vue.prototype.$api = api

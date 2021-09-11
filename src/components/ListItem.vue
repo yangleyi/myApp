@@ -32,10 +32,31 @@ export default {
     }
   },
   methods: {
+    addLog() {
+      this.$request.mutate({
+        mutation: this.$api.addCallLog,
+        variables: {
+          input: {
+            shopId: this.node.id,
+            phone: this.node.phone,
+            userId: 'ttt'
+            // user: {
+            //   id: 'xxx',
+            //   name: 'test'
+            // }
+          }
+        },
+      }).then((res) => {
+        console.log('############', res)
+      }).catch(err => {
+        console.log('err', err)
+      })
+    },
     onClick() {
       Taro.navigateTo({url: `/pages/detail/index?id=${this.node.id}`})
     },
     callPhone() {
+      this.addLog()
       Taro.makePhoneCall({
         phoneNumber: this.node.phone
       })

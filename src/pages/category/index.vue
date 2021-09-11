@@ -16,8 +16,13 @@
         <view>
           <view class="hot-title">热门品牌</view>
           <view class="hot-list">
-            <view v-for="(item, index) in hotList" :key="index" class="hot-item">
-              <image src="" class="hot-icon" />
+            <view
+              v-for="(item, index) in hotList"
+              :key="index"
+              class="hot-item"
+              @tap="() => onClick(item)"
+            >
+              <image :src="item.image" class="hot-icon" />
             </view>
           </view>
         </view>
@@ -36,55 +41,68 @@ export default {
     return {
       value: '',
       scrollToView: null,
-      hotList: [1,2,3,4,5,6,7],
-      list: [
-        {title:'A',key:'A',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '列表项内容5'}]},
-        {title:'B',key:'B',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '列表项内容5'}]},
-        {title:'C',key:'C',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '列表项内容5'}]},
-        {title:'D',key:'D',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '大众'}]},
-      ],
+      // list: [
+      //   {title:'A',key:'A',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '列表项内容5'}]},
+      //   {title:'B',key:'B',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '列表项内容5'}]},
+      //   {title:'C',key:'C',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '列表项内容5'}]},
+      //   {title:'D',key:'D',items:[{name: '列表项内容1'},{name: '列表项内容2'},{name: '列表项内容3'},{name: '列表项内容4'},{name: '大众'}]},
+      // ],
+      resultList: []
     }
   },
   computed: {
+    hotList() {
+      return this.resultList.filter(item => item.status === 'HOT')
+    },
     listData() {
       return key => {
-        const list = [...this.list]
-        return list.filter(item => {
-          item.items = item.items.filter(ele => {
-            return ele.name.includes(key)
-          })
-          return item
-        }).filter(item => item.items.length)
+        const data = {}
+        this.resultList.forEach(item => {
+          if (item.name.includes(key)) {
+            if (data[item.tag]) {
+              data[item.tag].push(item)
+            } else {
+              data[item.tag] = [item]
+            }
+          }
+        })
+        const list = []
+        Object.keys(data).forEach(item => {
+          const obj = {
+            title: item,
+            key: item,
+            items: data[item]
+          }
+          list.push(obj)
+        })
+        return list
       }
     }
   },
-  mounted() {
-    this.getData()
+  onLoad(opt) {
+    this.getData(opt.id)
   },
   methods: {
-    getData() {
+    getData(id) {
       this.$request.query({
         query: this.$api.category,
         variables: {
-          input: {}
+          input: {
+            id: id
+          }
         },
       }).then((res) => {
-        console.log('############', res)
-      }).catch(err => {
-        // console.log('#err', JSON.parse(JSON.stringify(err)))
-        // const data = JSON.parse(JSON.stringify(err))
-        // Taro.showToast({title: data.message, icon: 'none'})
+        this.resultList = res.data.categorys
       })
     },
     onClick(data) {
       console.log(22,data)
-      Taro.navigateTo({url: `/pages/storeList/index`})
+      Taro.navigateTo({url: `/pages/storeList/index?id=${data.id}`})
     },
     handleScroll(data) {
        this.scrollToView = data
     },
     handleActionClick() {
-      console.log(1111111111, this.value)
       if (!this.value) {
         return
       }

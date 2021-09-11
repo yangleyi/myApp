@@ -15,9 +15,9 @@
       </swiper-item>
     </swiper>
     <view class="menu-box">
-      <view v-for="item in menuList" :key="item.key" class="menu-item" @tap="() => onClick(item)">
-        <image :src="item.icon" class="menu-icon" />
-        <text>{{item.label}}</text>
+      <view v-for="item in menuList" :key="item.id" class="menu-item" @tap="() => onClick(item)">
+        <image :src="item.image" class="menu-icon" />
+        <text>{{item.name}}</text>
       </view>
     </view>
     <view class="title">优质卖家</view>
@@ -35,18 +35,18 @@ import Taro from '@tarojs/taro'
 export default {
   components: { ListItem },
   data () {
-    const menuList = [
-      { label: '轿车客车', icon: require('../../assets/new-car.png'), key: 'car'},
-      { label: '装具装潢', icon: require('../../assets/zhuang.png'), key: 'zhuang'},
-      { label: '询价单', icon: require('../../assets/check-bill.png'), key: 'check'},
-      { label: '单项产品', icon: require('../../assets/simple-pro.png'), key: 'simple'},
-      { label: '重汽轻卡', icon: require('../../assets/skin-car.png'), key: 'skin'},
-      { label: '浏览记录', icon: require('../../assets/history.png'), key: 'history'},
-      { label: '拆车件', icon: require('../../assets/destroy.png'), key: 'destroy'},
-      { label: '求购信息', icon: require('../../assets/buy-msg.png'), key: 'buy'},
-    ]
+    // const menuList = [
+    //   { label: '轿车客车', icon: require('../../assets/new-car.png'), key: 'car'},
+    //   { label: '装具装潢', icon: require('../../assets/zhuang.png'), key: 'zhuang'},
+    //   { label: '询价单', icon: require('../../assets/check-bill.png'), key: 'check'},
+    //   { label: '单项产品', icon: require('../../assets/simple-pro.png'), key: 'simple'},
+    //   { label: '重汽轻卡', icon: require('../../assets/skin-car.png'), key: 'skin'},
+    //   { label: '浏览记录', icon: require('../../assets/history.png'), key: 'history'},
+    //   { label: '拆车件', icon: require('../../assets/destroy.png'), key: 'destroy'},
+    //   { label: '求购信息', icon: require('../../assets/buy-msg.png'), key: 'buy'},
+    // ]
     return {
-      menuList,
+      menuList: [],
       banner: [],
       duration: 1000,
       interval: 3000,
@@ -59,8 +59,22 @@ export default {
   mounted() {
     this.getBanner()
     this.getStore()
+    this.getCategory()
   },
   methods: {
+    getCategory() {
+      this.$request.query({
+        query: this.$api.category, 
+        variables: {
+          input: { 
+            root: 'home'
+          }
+        }
+      }).then(result => {
+        this.menuList = result.data.categorys.filter(item => item.children.length)
+        console.log(11,this.menuList)
+      });
+    },
     getBanner() {
       this.$request.query({
         query: this.$api.banners, 
@@ -85,7 +99,8 @@ export default {
       })
     },
     onClick(data) {
-      Taro.navigateTo({url: '/pages/category/index'})
+      console.log(data)
+      Taro.navigateTo({url: `/pages/category/index?id=${data.id}`})
     },
     handleClick () {
       this.show = true

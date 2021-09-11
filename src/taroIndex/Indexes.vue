@@ -56,12 +56,12 @@
               :onClick="handleClick.bind(this, item)"
             /> -->
             <view
-              v-for="item in dataList.items"
-              :key="item.name"
+              v-for="(item, index) in dataList.items"
+              :key="item.name + index"
               @tap="() => itemClick(item)"
               class="index-line"
             >
-              <image :src="item.icon" class="icon" />
+              <image :src="item.image" class="icon" />
               <text>{{item.name}}</text>
             </view>
           </template>

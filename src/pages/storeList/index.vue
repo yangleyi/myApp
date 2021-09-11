@@ -63,14 +63,17 @@ export default {
   },
   onLoad(opt) {
     console.log('onload', opt)
-    this.getStore()
+    this.getStore(opt.id)
   },
   methods: {
-    getStore() {
+    getStore(id) {
       this.$request.query({
         query: this.$api.store,
         variables: {
-          input: this.params
+          input: {
+            ...this.params,
+            categoryId: id
+          }
         },
       }).then(({data}) => {
         this.list = this.params.offset === 1 ? [...data.shops.edges] : [...this.list, ...data.shops.edges]
