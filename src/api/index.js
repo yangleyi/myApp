@@ -6,7 +6,10 @@ const client = new ApolloClient({
     url,
     method: options.method,
     data: options.body,
-    header: options.headers
+    // header: options.headers
+    header: {
+      authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDE2LCJuYW1lIjoiOTIiLCJwcm9maWxlUGljdHVyZSI6bnVsbCwicGhvbmUiOjE4NjAxNzg0ODI2LCJnYXJhZ2UiOiJubiIsImNpdHkiOiLmtY7ljZfluIIiLCJhcmVhIjoi5bGx5Lic55yBIiwicm9sZSI6IkNVU1RPTUVSIiwidG90YWxGZWUiOjAsImdvbGQiOjUsImlhdCI6MTYzMTUxMzg2OSwiZXhwIjozMzE4OTExMzg2OX0.fk3aFEnUkHgTOpjflKMZCdmRDL56JiugXzIa3OSHjqQ'
+    }
   }).then(({data, statusCode}) => {
     return {
       ok: () => {

@@ -14,8 +14,10 @@
 
 <script>
 import Taro from '@tarojs/taro'
+import RecrodMixin from '../mixin/addRecord.vue'
 export default {
   name: 'ListItem',
+  mixins: [RecrodMixin],
   props: {
     node: {
       type: Object,
@@ -32,31 +34,39 @@ export default {
     }
   },
   methods: {
-    addLog() {
-      this.$request.mutate({
-        mutation: this.$api.addCallLog,
-        variables: {
-          input: {
-            shopId: this.node.id,
-            phone: this.node.phone,
-            userId: 'ttt'
-            // user: {
-            //   id: 'xxx',
-            //   name: 'test'
-            // }
-          }
-        },
-      }).then((res) => {
-        console.log('############', res)
-      }).catch(err => {
-        console.log('err', err)
-      })
-    },
+    // addLog() {
+      // const {id, cover, phone, name} = this.node
+      // this.$record.add({
+      //   id,
+      //   cover,
+      //   phone,
+      //   name,
+      //   time: new Date().toJSON().slice(5, 19).replace('T', ' ')
+      // })
+      // this.$request.mutate({
+      //   mutation: this.$api.addCallLog,
+      //   variables: {
+      //     input: {
+      //       shopId: this.node.id,
+      //       phone: this.node.phone,
+      //       userId: 'dXNlci80MTY='
+      //       // user: {
+      //       //   id: 'xxx',
+      //       //   name: 'test'
+      //       // }
+      //     }
+      //   },
+      // }).then((res) => {
+      //   console.log('############', res)
+      // }).catch(err => {
+      //   console.log('err', err)
+      // })
+    // },
     onClick() {
       Taro.navigateTo({url: `/subPages/detail/index?id=${this.node.id}`})
     },
     callPhone() {
-      this.addLog()
+      this.addRecord(this.node)
       Taro.makePhoneCall({
         phoneNumber: this.node.phone
       })

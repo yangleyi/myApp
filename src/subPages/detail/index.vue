@@ -27,7 +27,7 @@
     </view>
     <view class="container">
       <view class="title mb10">主营</view>
-      <view class="content">{{cateText}}}</view>
+      <view class="content">{{cateText}}</view>
       <view class="title mb10 mt10" v-if="false">详情</view>
       <view class="content" v-if="false">{{detail.description}}</view>
     </view>
@@ -64,10 +64,13 @@
 </template>
 
 <script>
+import RecrodMixin from '../../mixin/addRecord.vue'
 import Taro from '@tarojs/taro'
 export default {
+  mixins: [RecrodMixin],
   data () {
     return {
+      id: '',
       detail: {
         categories: [],
         phones: []
@@ -93,6 +96,7 @@ export default {
     }
   },
   onLoad(opt) {
+    this.id = opt.id
     this.getDetail(opt.id)
   },
   onShareAppMessage() {
@@ -107,10 +111,12 @@ export default {
     copy(data) {
       Taro.setClipboardData({data: data.toString()})
     },
-    linkStore() {
+    async linkStore() {
       Taro.makePhoneCall({
         phoneNumber: this.detail.phone
       })
+      await this.addRecord(this.detail)
+      this.getDetail(this.id)
     },
     getDetail(id) {
       this.$request.query({
@@ -123,7 +129,7 @@ export default {
       }).then((res) => {
         this.detail = res.data.shop
       }).catch(err => {
-        console.log(456, err)
+        console.log('err', err)
         // console.log('#err', JSON.parse(JSON.stringify(err)))
         // const data = JSON.parse(JSON.stringify(err))
         // Taro.showToast({title: data.message, icon: 'none'})

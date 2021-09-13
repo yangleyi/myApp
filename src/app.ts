@@ -7,7 +7,9 @@ import 'taro-ui/dist/style/components/indexes.scss'
 import 'taro-ui/dist/style/components/list.scss'
 import 'taro-ui/dist/style/components/toast.scss'
 import graphqlClient from './api'
+import localSave from './utils/common'
 Vue.prototype.$request = graphqlClient
+Vue.prototype.$record = localSave
 import './api/constant'
 
 const App = {
