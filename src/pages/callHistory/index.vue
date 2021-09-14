@@ -6,7 +6,7 @@
       class="scrollview"
       @scrollToLower="onBottom"
     >
-      <view v-for="(item, index) in list" :key="index" class="block">
+      <view v-for="(item, index) in list" :key="index" class="block" @tap="onClick(item)">
         <image :src="item.cover" class="img" />
         <view class="cont">
           <view class="name">{{item.name}}</view>
@@ -52,6 +52,9 @@ export default {
     this.getList()
   },
   methods: {
+    onClick(data) {
+      Taro.navigateTo({url: `/subPages/detail/index?id=${data.id}`})
+    },
     async getList() {
       this.list = await this.$record.get()
       this.status = 'noMore'
