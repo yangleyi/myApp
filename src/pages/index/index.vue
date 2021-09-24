@@ -61,6 +61,11 @@ export default {
     this.getStore()
     this.getCategory()
   },
+  onShareAppMessage() {
+    return {
+      title: '济南市汽车配件行业协会'
+    }
+  },
   methods: {
     getCategory() {
       this.$request.query({
