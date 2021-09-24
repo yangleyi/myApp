@@ -11,7 +11,11 @@
       </view>
       <view class="address mb10">地址：{{detail.address}}</view>
       <view class="inline">
-        <view class="address">电话：<text class="text-blue">{{detail.phone}}</text>（拨打次数：{{count}}）</view>
+        <view class="address">
+          <text>电话：</text>
+          <text class="text-blue">{{detail.phone}}</text>
+          <!-- <text>（拨打次数：{{count}}）</text> -->
+        </view>
         <image @tap="linkStore" :src="require('../../assets/link-store.png')" class="r-btn" />
       </view>
       <view class="net-link">
