@@ -120,6 +120,7 @@ const api = {
         city
         cover
         shopType
+        phoneCount
         phones {
           id
           phone

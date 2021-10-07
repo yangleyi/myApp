@@ -14,7 +14,7 @@
         <view class="address">
           <text>电话：</text>
           <text class="text-blue">{{detail.phone}}</text>
-          <!-- <text>（拨打次数：{{count}}）</text> -->
+          <text>（拨打次数：{{detail.phoneCount}}）</text>
         </view>
         <image @tap="linkStore" :src="require('../../assets/link-store.png')" class="r-btn" />
       </view>
