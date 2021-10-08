@@ -11,7 +11,7 @@
       :autoplay="isAutoplay"
       :indicator-dots="hasIndicatorDots">
       <swiper-item class="swiper-item" v-for="(item, idx) in banner" :key="idx">
-        <image :src="item.path" class="banner" />
+        <image @tap="bannerClick(item)" :src="item.path" class="banner" />
       </swiper-item>
     </swiper>
     <view class="menu-box">
@@ -67,6 +67,9 @@ export default {
     }
   },
   methods: {
+    bannerClick(data) {
+      Taro.navigateTo({url: `/subPages/detail/index?id=${data.link}`})
+    },
     getCategory() {
       this.$request.query({
         query: this.$api.category, 

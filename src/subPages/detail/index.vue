@@ -101,7 +101,10 @@ export default {
   },
   onLoad(opt) {
     this.id = opt.id
-    this.getDetail(opt.id)
+    // this.getDetail(opt.id)
+  },
+  onShow() {
+    this.getDetail(this.id)
   },
   onShareAppMessage() {
     const {name, cover} = this.detail
