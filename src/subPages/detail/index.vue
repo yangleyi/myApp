@@ -133,6 +133,7 @@ export default {
             id: id
           }
         },
+        fetchPolicy: 'no-cache'
       }).then((res) => {
         this.detail = res.data.shop
       }).catch(err => {
